@@ -144,7 +144,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Our Mission",
             "Champions 4 Heroes is a non-profit organization uniting veterans and boxing champions to promote " +
             "advocacy, provide resources, and educate the community on the effects of traumatic brain injury.",
-            "champions-4-heroes-mission.jpg",
+            "completeteam.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1BqGKk9ChN/"),
 
