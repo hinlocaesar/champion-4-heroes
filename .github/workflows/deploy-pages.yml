@@ -22,6 +22,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A cold runner has to restore NuGet packages, build, install the Umbraco
+    # schema into a fresh SQLite file and self-seed before it can export.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -70,6 +73,7 @@ jobs:
         # GitHub tears down background processes at the end of a `run` step, so the
         # server must be started and used inside this single step.
         run: |
+          set +e
           chmod +x ./bin/Release/net10.0/champion-4-heroes
 
           ASPNETCORE_ENVIRONMENT=Development \
@@ -80,7 +84,7 @@ jobs:
           echo "app pid $APP_PID"
 
           READY=0
-          for i in $(seq 1 90); do
+          for i in $(seq 1 180); do
             if curl -fsS http://localhost:5099/ > /dev/null 2>&1; then
               echo "app is up after $((i * 2))s"
               READY=1
@@ -90,16 +94,29 @@ jobs:
           done
 
           if [ "$READY" -ne 1 ]; then
-            echo "::error::the app did not start"
-            tail -60 app.log
+            echo "::error::the app did not start within 6 minutes"
+            tail -100 app.log
             exit 1
           fi
 
-          echo "exporting with base path '${{ steps.pages.outputs.base_path }}'"
-          node tools/export-static.js http://localhost:5099 "${{ steps.pages.outputs.base_path }}"
+          # Passed through the environment so the value never lands inside the
+          # shell's own quoting.
+          export PAGES_BASE_PATH="${{ steps.pages.outputs.base_path }}"
+          echo "base path: '${PAGES_BASE_PATH}'"
+          echo "node: $(node --version)"
+
+          node tools/export-static.js "http://localhost:5099" "$PAGES_BASE_PATH"
           STATUS=$?
 
-          kill "$APP_PID" 2>/dev/null || true
+          echo "export exit status: $STATUS"
+          echo "dist entries: $(ls dist 2>/dev/null | wc -l)"
+
+          if [ "$STATUS" -ne 0 ]; then
+            echo "::error::the static export failed"
+            tail -40 app.log
+          fi
+
+          kill "$APP_PID" 2>/dev/null
           exit $STATUS
 
       - uses: actions/upload-pages-artifact@v3
