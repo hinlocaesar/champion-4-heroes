@@ -109,7 +109,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Ritchel N Twining",
             "National Boxing Hall of Fame",
             "Some photos from the National Boxing Hall of Fame, uploaded late.",
-            "nbhof-late-upload.jpg",
+            "mosley.jpg",
             string.Empty,
             "https://www.facebook.com/share/r/1EaJCDe1d9/"),
 

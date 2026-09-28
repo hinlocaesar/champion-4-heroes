@@ -114,7 +114,7 @@ the new name, then start normally again.
 | Macho Time: Hall of Fame Weekend | `macho-time-hall-of-fame-weekend.jpg` |
 | Thank You, Janie | `janie-bracero-thank-you.jpg` |
 | Champions 4 Heroes at the Indiana Sports Hall of Fame | `indiana-sports-hall-of-fame.jpg` |
-| NBHOF Photo Drop: Late Uploads | `nbhof-late-upload.jpg` |
+| NBHOF Photo Drop: Late Uploads | `mosley.jpg` |
 | Congratulations to Brenda Spinks | `brenda-spinks-award.jpg` |
 | The Spinks Family and Champions 4 Heroes | `spinks-family.jpg` |
 | What Champions 4 Heroes Stands For | `champions-4-heroes-mission.jpg` |
