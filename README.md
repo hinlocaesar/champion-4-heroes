@@ -27,14 +27,27 @@ Then edit `appsettings.Development.json` and set `UnattendedUserName`, `Unattend
 dotnet run
 ```
 
-Then open the URL printed in the console (the launch profile uses `http://localhost:50104`), or pin a port:
+This uses the `Umbraco.Web.UI` launch profile, which listens on **both**:
+
+| URL | Use |
+| --- | --- |
+| https://localhost:44369 | Front office **and back office** — the one you normally want |
+| http://localhost:50104 | Front office only, over plain HTTP |
+
+> ⚠️ **The back office must be opened over HTTPS.** Umbraco authenticates with OpenID Connect, and
+> OpenIddict rejects plain HTTP with `This server only accepts HTTPS requests` (`ID2083`). If you
+> restart with something like `dotnet run --urls http://localhost:5099` you lose the HTTPS endpoint and
+> `/umbraco` will fail to log in. To move the ports, change `applicationUrl` in
+> `Properties/launchSettings.json` and keep an `https://` entry.
+
+If the browser warns about the certificate, trust the .NET dev certificate once:
 
 ```bash
-dotnet run --urls http://localhost:5099
+dotnet dev-certs https --trust
 ```
 
-- **Front office:** `/`
-- **Back office:** `/umbraco`
+- **Front office:** https://localhost:44369/
+- **Back office:** https://localhost:44369/umbraco
 
 ### First run
 
@@ -47,6 +60,13 @@ On the very first start Umbraco will:
 
 > The unattended install only runs when the database is empty. To start over, stop the app and delete
 > `umbraco/Data/*.sqlite.db*`.
+
+Umbraco also needs to know its own public URL to build OAuth redirect URIs, so set it in
+`appsettings.Development.json` to match the HTTPS port in `Properties/launchSettings.json`:
+
+```json
+"Umbraco": { "CMS": { "WebRouting": { "UmbracoApplicationUrl": "https://localhost:44369" } } }
+```
 
 ## How the content is managed
 
