@@ -59,6 +59,13 @@ jobs:
       - name: Build
         run: dotnet build -c Release --nologo
 
+      # Runs first so the real Pages base path is known. It is empty when the
+      # site is served from a domain root, and "/champion-4-heroes" for a
+      # project site, which is exactly what the export needs.
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Start the app, let it seed itself, and export
         # GitHub tears down background processes at the end of a `run` step, so the
         # server must be started and used inside this single step.
@@ -88,13 +95,12 @@ jobs:
             exit 1
           fi
 
-          node tools/export-static.js http://localhost:5099 /champion-4-heroes
+          echo "exporting with base path '${{ steps.pages.outputs.base_path }}'"
+          node tools/export-static.js http://localhost:5099 "${{ steps.pages.outputs.base_path }}"
           STATUS=$?
 
           kill "$APP_PID" 2>/dev/null || true
           exit $STATUS
-
-      - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
