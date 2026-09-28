@@ -102,10 +102,29 @@ attaches a seeded image to a post whose **live** page is missing one, but never 
 or alt text an editor has set. To change the seeded posts, edit the `Posts` table in
 `Components/BlogSeedHandler.cs`.
 
-Six of the twelve posts have images. Facebook's crawler endpoint returned a login wall for the other
-six, so those posts publish without an image until you upload one in the back office. If a post points
-at a file that is not on disk, the card falls back to the branded "4" placeholder instead of a broken
-image.
+Every post has a filename reserved for it, so dropping a file into `wwwroot/img/blog/` is all it
+takes. If you rename one in the seed, start the app once with `C4H_FORCE_IMAGE_REFRESH=1` to re-assert
+the new name, then start normally again.
+
+| Post | Image file |
+| --- | --- |
+| Champions 4 Heroes at the WBC and National Boxing Hall of Fame | `wbc-national-boxing-hall-of-fame.jpg` |
+| Road to Canastota: IBHOF Weekend | `trilogy.jpg` |
+| On Our Way to the Atlantic City Boxing Hall of Fame | `acbhof-weekend.jpg` |
+| Macho Time: Hall of Fame Weekend | `macho-time-hall-of-fame-weekend.jpg` |
+| Thank You, Janie | `janie-bracero-thank-you.jpg` |
+| Champions 4 Heroes at the Indiana Sports Hall of Fame | `indiana-sports-hall-of-fame.jpg` |
+| NBHOF Photo Drop: Late Uploads | `nbhof-late-upload.jpg` |
+| Congratulations to Brenda Spinks | `brenda-spinks-award.jpg` |
+| The Spinks Family and Champions 4 Heroes | `spinks-family.jpg` |
+| What Champions 4 Heroes Stands For | `champions-4-heroes-mission.jpg` |
+| Champions Gift to the VA at Hines | `hines-va-champions-gift.jpg` |
+| Hero's Welcome in Bacolod | `bacolod-hero-welcome-nietes.jpg` |
+
+Six of the twelve images came from Facebook's crawler endpoint. The rest are login-walled, so drop
+those files in when you have them. If a post points at a file that is not on disk, the card falls
+back to the branded "4" placeholder instead of a broken image. Fill in the **Image alt text** field
+when you add a picture — an empty alt is invisible to screen readers.
 
 ## Project layout
 

@@ -55,7 +55,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "We are on our way to Canastota, NY for the International Boxing Hall of Fame. We will meet up with " +
             "our powerful team members from Champions 4 Heroes. See everyone tomorrow at the Celebrity Fist " +
             "Casting!",
-            null,
+            "trilogy.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/19kwttHumJ/"),
 
@@ -65,7 +65,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Janie Bracero",
             "Atlantic City Boxing Hall of Fame",
             "Champions 4 Heroes on the way to ACBHOF for a spectacular weekend to remember!!",
-            null,
+            "acbhof-weekend.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1JpLEWjHGL/"),
 
@@ -109,7 +109,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Ritchel N Twining",
             "National Boxing Hall of Fame",
             "Some photos from the National Boxing Hall of Fame, uploaded late.",
-            null,
+            "nbhof-late-upload.jpg",
             string.Empty,
             "https://www.facebook.com/share/r/1EaJCDe1d9/"),
 
@@ -133,7 +133,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Community",
             "With friends Mel and his beautiful wife Chel (Mel Twining), and Michael Spinks too! Mel runs the " +
             "Nate Twining Foundation, Champions 4 Heroes, which does great things to recognize and help veterans.",
-            null,
+            "spinks-family.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1d4qqrvBkC/"),
 
@@ -144,7 +144,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Our Mission",
             "Champions 4 Heroes is a non-profit organization uniting veterans and boxing champions to promote " +
             "advocacy, provide resources, and educate the community on the effects of traumatic brain injury.",
-            null,
+            "champions-4-heroes-mission.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1BqGKk9ChN/"),
 
@@ -330,8 +330,11 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             return false;
         }
 
-        // Only fill blanks — an editor's own image is left alone.
-        if (string.IsNullOrWhiteSpace(post.GetValue<string>("imageFile")))
+        // Only fill blanks — an editor's own image is left alone. Set
+        // C4H_FORCE_IMAGE_REFRESH=1 to re-assert the seeded filename after a rename.
+        bool forceRefresh = Environment.GetEnvironmentVariable("C4H_FORCE_IMAGE_REFRESH") == "1";
+
+        if (forceRefresh || string.IsNullOrWhiteSpace(post.GetValue<string>("imageFile")))
         {
             post.SetValue("imageFile", seed.Image);
         }
