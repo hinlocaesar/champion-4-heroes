@@ -133,7 +133,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Community",
             "With friends Mel and his beautiful wife Chel (Mel Twining), and Michael Spinks too! Mel runs the " +
             "Nate Twining Foundation, Champions 4 Heroes, which does great things to recognize and help veterans.",
-            "spinks-family.jpg",
+            "bernardhopkins.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1d4qqrvBkC/"),
 

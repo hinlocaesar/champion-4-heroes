@@ -116,7 +116,7 @@ the new name, then start normally again.
 | Champions 4 Heroes at the Indiana Sports Hall of Fame | `indiana-sports-hall-of-fame.jpg` |
 | NBHOF Photo Drop: Late Uploads | `mosley.jpg` |
 | Congratulations to Brenda Spinks | `brenda-spinks-award.jpg` |
-| The Spinks Family and Champions 4 Heroes | `spinks-family.jpg` |
+| The Spinks Family and Champions 4 Heroes | `bernardhopkins.jpg` |
 | What Champions 4 Heroes Stands For | `champions-4-heroes-mission.jpg` |
 | Champions Gift to the VA at Hines | `hines-va-champions-gift.jpg` |
 | Hero's Welcome in Bacolod | `bacolod-hero-welcome-nietes.jpg` |
