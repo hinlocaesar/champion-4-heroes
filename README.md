@@ -110,7 +110,7 @@ the new name, then start normally again.
 | --- | --- |
 | Champions 4 Heroes at the WBC and National Boxing Hall of Fame | `wbc-national-boxing-hall-of-fame.jpg` |
 | Road to Canastota: IBHOF Weekend | `trilogy.jpg` |
-| On Our Way to the Atlantic City Boxing Hall of Fame | `acbhof-weekend.jpg` |
+| On Our Way to the Atlantic City Boxing Hall of Fame | `usteam.jpg` |
 | Macho Time: Hall of Fame Weekend | `macho-time-hall-of-fame-weekend.jpg` |
 | Thank You, Janie | `janie-bracero-thank-you.jpg` |
 | Champions 4 Heroes at the Indiana Sports Hall of Fame | `indiana-sports-hall-of-fame.jpg` |

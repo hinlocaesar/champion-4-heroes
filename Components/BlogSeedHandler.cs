@@ -65,7 +65,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Janie Bracero",
             "Atlantic City Boxing Hall of Fame",
             "Champions 4 Heroes on the way to ACBHOF for a spectacular weekend to remember!!",
-            "acbhof-weekend.jpg",
+            "usteam.jpg",
             string.Empty,
             "https://www.facebook.com/share/p/1JpLEWjHGL/"),
 
