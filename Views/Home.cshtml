@@ -1,0 +1,469 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = null;
+
+    string V(string alias) => Model.Value<string>(alias) ?? string.Empty;
+
+    var heroEyebrow = V("heroEyebrow");
+    var heroTitle = V("heroTitle");
+    var heroLead = V("heroLead");
+
+    var missionTitle = V("missionTitle");
+    var missionLead = V("missionLead");
+    var pillar1Title = V("pillar1Title");
+    var pillar1Text = V("pillar1Text");
+    var pillar2Title = V("pillar2Title");
+    var pillar2Text = V("pillar2Text");
+    var pillar3Title = V("pillar3Title");
+    var pillar3Text = V("pillar3Text");
+
+    var storyTitle = V("storyTitle");
+    var storyText1 = V("storyText1");
+    var storyText2 = V("storyText2");
+    var quote = V("quote");
+    var quoteAuthor = V("quoteAuthor");
+
+    var programsTitle = V("programsTitle");
+    var programsLead = V("programsLead");
+    var program1Title = V("program1Title");
+    var program1Text = V("program1Text");
+    var program2Title = V("program2Title");
+    var program2Text = V("program2Text");
+    var program3Title = V("program3Title");
+    var program3Text = V("program3Text");
+    var program4Title = V("program4Title");
+    var program4Text = V("program4Text");
+
+    var watchTitle = V("watchTitle");
+    var watchLead = V("watchLead");
+    var watchNote = V("watchNote");
+    var youtubeUrl = V("youtubeUrl");
+    var facebookVideoUrl = V("facebookVideoUrl");
+
+    var involvedTitle = V("involvedTitle");
+    var involvedLead = V("involvedLead");
+    var ctaHeading = V("ctaHeading");
+
+    var contactIntro = V("contactIntro");
+    var facebookUrl = V("facebookUrl");
+    var address = V("address");
+    var footerText = V("footerText");
+
+    var siteName = string.IsNullOrWhiteSpace(heroTitle) ? "Champions 4 Heroes" : heroTitle;
+    var youTubeId = youtubeUrl.Contains("youtu") ? youtubeUrl.Split("v=").LastOrDefault()?.Split("&").FirstOrDefault() ?? string.Empty : string.Empty;
+    var youTubeEmbed = string.IsNullOrEmpty(youTubeId) ? string.Empty : $"https://www.youtube-nocookie.com/embed/{youTubeId}";
+    var youTubeThumb = string.IsNullOrEmpty(youTubeId) ? string.Empty : $"https://i.ytimg.com/vi/{youTubeId}/hqdefault.jpg";
+    var youTubeThumbLarge = string.IsNullOrEmpty(youTubeId) ? string.Empty : $"https://i.ytimg.com/vi/{youTubeId}/maxresdefault.jpg";
+
+    // Emphasise the "4" in the hero title without trusting raw HTML from the back office.
+    var heroTitleHtml = System.Net.WebUtility.HtmlEncode(siteName).Replace(" 4 ", " <span class=\"accent\">4</span> ");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@siteName — Uniting Veterans &amp; Boxing Champions</title>
+    <meta name="description" content="@heroLead" />
+    <meta name="theme-color" content="#0b0f14" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@siteName" />
+    <meta property="og:description" content="@heroLead" />
+    @if (!string.IsNullOrEmpty(youTubeThumb))
+    {
+        <meta property="og:image" content="@youTubeThumb" />
+    }
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="@Url.Content("~/css/styles.css")" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230b0f14'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial Black,Arial' fill='%23f2c14e'>4</text></svg>" />
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============ HEADER ============ -->
+    <header class="site-header" id="siteHeader">
+        <div class="container nav-wrap">
+            <a class="brand" href="#top" aria-label="@siteName home">
+                <span class="brand-mark" aria-hidden="true">4</span>
+                <span class="brand-text">Champions <span class="brand-num">4</span> Heroes</span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="site-nav" id="siteNav" aria-label="Primary">
+                <ul>
+                    <li><a href="#mission">Mission</a></li>
+                    <li><a href="#story">Nate's Story</a></li>
+                    <li><a href="#programs">What We Do</a></li>
+                    <li><a href="#watch">Watch</a></li>
+                    <li><a href="#involved">Get Involved</a></li>
+                </ul>
+                <a class="btn btn-primary btn-sm nav-cta" href="#involved">Support the Mission</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="top">
+            <div class="hero-bg" aria-hidden="true">
+                <span class="hero-watermark">4</span>
+            </div>
+
+            <div class="container hero-inner">
+                <div class="hero-copy reveal">
+                    <p class="eyebrow">@heroEyebrow</p>
+                    <h1>@Html.Raw(heroTitleHtml)</h1>
+                    <p class="hero-lead">@heroLead</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#watch">
+                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>
+                            Watch Nate's Story
+                        </a>
+                        <a class="btn btn-ghost" href="#involved">Get Involved</a>
+                    </div>
+                </div>
+
+                <div class="hero-card reveal" data-delay="1">
+                    <a class="video-poster" href="@youtubeUrl" target="_blank" rel="noopener noreferrer">
+                        <img src="@(string.IsNullOrEmpty(youTubeThumbLarge) ? youTubeThumb : youTubeThumbLarge)"
+                             onerror="this.onerror=null;this.src='@youTubeThumb';"
+                             alt="Still from The Nathan Twining Story, produced by Fisher House Foundation" />
+                        <span class="play-btn" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="30" height="30"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>
+                        </span>
+                        <span class="poster-label">The Nathan Twining Story · Fisher House Foundation</span>
+                    </a>
+                </div>
+            </div>
+
+            <ul class="hero-stats">
+                <li class="container">
+                    <div class="stat"><span class="stat-num">101st</span><span class="stat-label">Airborne Division</span></div>
+                    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Tours · Iraq &amp; Afghanistan</span></div>
+                    <div class="stat"><span class="stat-num">2 yrs</span><span class="stat-label">1 week at Fisher House</span></div>
+                    <div class="stat"><span class="stat-num">2020</span><span class="stat-label">501(c)(3) founded</span></div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- ============ MISSION ============ -->
+        <section class="section" id="mission">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Our Mission</p>
+                    <h2>@missionTitle</h2>
+                    <p class="section-lead">@missionLead</p>
+                </div>
+
+                <div class="grid-3">
+                    <article class="pillar reveal">
+                        <span class="pillar-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2 3 6v6c0 5.25 3.75 9.74 9 11 5.25-1.26 9-5.75 9-11V6l-9-4Zm0 4.2 4.5 2v3.6c0 3.4-1.9 6.4-4.5 7.6-2.6-1.2-4.5-4.2-4.5-7.6V8.2l4.5-2Z"/></svg>
+                        </span>
+                        <h3>@pillar1Title</h3>
+                        <p>@pillar1Text</p>
+                    </article>
+
+                    <article class="pillar reveal" data-delay="1">
+                        <span class="pillar-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3Zm5 4a5 5 0 1 0-5 5h5V7Zm-5 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/></svg>
+                        </span>
+                        <h3>@pillar2Title</h3>
+                        <p>@pillar2Text</p>
+                    </article>
+
+                    <article class="pillar reveal" data-delay="2">
+                        <span class="pillar-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2 1 8.5l11 6.5 9-5.36V16h2V8.5L12 2ZM5 13.2v3.9l7 4.14 7-4.14v-3.9l-7 4.14-7-4.14Z"/></svg>
+                        </span>
+                        <h3>@pillar3Title</h3>
+                        <p>@pillar3Text</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ STORY ============ -->
+        <section class="section section-alt" id="story">
+            <div class="container split">
+                <div class="split-media reveal">
+                    <div class="frame">
+                        <img src="@youTubeThumb" alt="Nate Twining, U.S. Army Staff Sergeant, 101st Airborne Division" loading="lazy" />
+                    </div>
+                    <div class="badge-row">
+                        <span class="badge">U.S. Army</span>
+                        <span class="badge">101st Airborne</span>
+                        <span class="badge">Iraq · Afghanistan</span>
+                    </div>
+                </div>
+
+                <div class="split-copy reveal" data-delay="1">
+                    <p class="eyebrow">Nate's Story</p>
+                    <h2>@storyTitle</h2>
+                    <p>@storyText1</p>
+                    <p>@storyText2</p>
+
+                    <blockquote class="pull-quote">
+                        <p>"@quote"</p>
+                        <footer>— @quoteAuthor</footer>
+                    </blockquote>
+
+                    <a class="btn btn-ghost" href="@youtubeUrl" target="_blank" rel="noopener noreferrer">
+                        Watch the full story
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M5 12h12.2l-4.6-4.6L14 6l7 6-7 6-1.4-1.4 4.6-4.6H5z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PROGRAMS ============ -->
+        <section class="section" id="programs">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">What We Do</p>
+                    <h2>@programsTitle</h2>
+                    <p class="section-lead">@programsLead</p>
+                </div>
+
+                <div class="grid-2">
+                    <article class="program reveal">
+                        <span class="program-num" aria-hidden="true">01</span>
+                        <h3>@program1Title</h3>
+                        <p>@program1Text</p>
+                    </article>
+
+                    <article class="program reveal" data-delay="1">
+                        <span class="program-num" aria-hidden="true">02</span>
+                        <h3>@program2Title</h3>
+                        <p>@program2Text</p>
+                    </article>
+
+                    <article class="program reveal" data-delay="2">
+                        <span class="program-num" aria-hidden="true">03</span>
+                        <h3>@program3Title</h3>
+                        <p>@program3Text</p>
+                    </article>
+
+                    <article class="program reveal" data-delay="3">
+                        <span class="program-num" aria-hidden="true">04</span>
+                        <h3>@program4Title</h3>
+                        <p>@program4Text</p>
+                    </article>
+                </div>
+
+                <aside class="partners reveal">
+                    <span class="partners-label">In partnership with</span>
+                    <ul>
+                        <li>Fisher House Foundation</li>
+                        <li>Friends of Fisher House Illinois</li>
+                        <li>Michael Nathan Twining Foundation</li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ============ WATCH ============ -->
+        <section class="section section-alt" id="watch">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Watch &amp; Share</p>
+                    <h2>@watchTitle</h2>
+                    <p class="section-lead">@watchLead</p>
+                </div>
+
+                <div class="watch-grid">
+                    <figure class="watch-card watch-main reveal">
+                        <div class="ratio">
+                            <iframe src="@youTubeEmbed"
+                                    title="The Nathan Twining Story — Fisher House Foundation"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen></iframe>
+                        </div>
+                        <figcaption>
+                            <h3>The Nathan Twining Story</h3>
+                            <p>Fisher House Foundation</p>
+                            <a class="text-link" href="@youtubeUrl" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="watch-card reveal" data-delay="1">
+                        <div class="ratio ratio-fb">
+                            <a class="fb-poster" href="@facebookVideoUrl" target="_blank" rel="noopener noreferrer" style="background-image: linear-gradient(140deg, rgba(47,111,176,.55), rgba(11,15,20,.9)), url('@youTubeThumb');">
+                                <span class="play-btn play-sm" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>
+                                </span>
+                            </a>
+                        </div>
+                        <figcaption>
+                            <h3>Remembering Nate Twining</h3>
+                            <p>Friends of Fisher House – Illinois</p>
+                            <a class="text-link" href="@facebookVideoUrl" target="_blank" rel="noopener noreferrer">Watch on Facebook</a>
+                        </figcaption>
+                    </figure>
+                </div>
+
+                <p class="watch-note reveal">@watchNote</p>
+            </div>
+        </section>
+
+        <!-- ============ GET INVOLVED ============ -->
+        <section class="section" id="involved">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Get Involved</p>
+                    <h2>@involvedTitle</h2>
+                    <p class="section-lead">@involvedLead</p>
+                </div>
+
+                <div class="grid-3">
+                    <article class="action-card reveal">
+                        <h3>Donate</h3>
+                        <p>Your gift funds veteran outreach, family support, and TBI education in Nate's honor.</p>
+                        <a class="text-link" href="#contact">Give today</a>
+                    </article>
+
+                    <article class="action-card reveal" data-delay="1">
+                        <h3>Volunteer</h3>
+                        <p>Help run events, welcome veteran families, and spread the word in your community.</p>
+                        <a class="text-link" href="#contact">Lend a hand</a>
+                    </article>
+
+                    <article class="action-card reveal" data-delay="2">
+                        <h3>Partner With Us</h3>
+                        <p>Gyms, champions, and businesses: team up for a cause bigger than any single fight.</p>
+                        <a class="text-link" href="#contact">Start a conversation</a>
+                    </article>
+                </div>
+
+                <div class="contact-wrap" id="contact">
+                    <div class="contact-info reveal">
+                        <p class="eyebrow">Contact</p>
+                        <h2>Get in touch</h2>
+                        <p>@contactIntro</p>
+
+                        <ul class="contact-list">
+                            <li>
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5H16.7V4.6c-.3 0-1.3-.13-2.45-.13-2.42 0-4.08 1.48-4.08 4.2v2.23H7.45V14h2.72v8h3.33Z"/></svg>
+                                </span>
+                                <div>
+                                    <span class="contact-label">Facebook</span>
+                                    <a href="@facebookUrl" target="_blank" rel="noopener noreferrer">Mel Twining on Facebook</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M21.6 7.2s-.2-1.4-.8-2c-.75-.8-1.6-.8-2-.85C16 4.2 12 4.2 12 4.2h-.02s-4 0-6.8.2c-.4.05-1.25.05-2 .85-.6.6-.8 2-.8 2S2.2 8.8 2.2 10.5v1.55c0 1.65.2 3.3.2 3.3s.2 1.4.8 2c.75.8 1.75.77 2.2.85 1.6.15 6.8.2 6.8.2s4 0 6.8-.2c.4-.05 1.25-.05 2-.85.6-.6.8-2 .8-2s.2-1.65.2-3.3V10.5c0-1.65-.2-3.3-.2-3.3ZM9.9 14.1V8.6l5.15 2.76-5.15 2.74Z"/></svg>
+                                </span>
+                                <div>
+                                    <span class="contact-label">Video</span>
+                                    <a href="@youtubeUrl" target="_blank" rel="noopener noreferrer">The Nathan Twining Story — YouTube</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2C7.6 2 4 5.6 4 10c0 5 5.5 11.2 7.3 13a1 1 0 0 0 1.4 0C14.5 21.2 20 15 20 10c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+                                </span>
+                                <div>
+                                    <span class="contact-label">Mailing address</span>
+                                    <span>@address</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <form class="contact-form reveal" data-delay="1" id="contactForm" novalidate>
+                        <div class="field">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" autocomplete="name" required placeholder="Your name" />
+                        </div>
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com" />
+                        </div>
+                        <div class="field">
+                            <label for="subject">I want to…</label>
+                            <select id="subject" name="subject">
+                                <option>Donate / support the mission</option>
+                                <option>Volunteer at an event</option>
+                                <option>Partner with Champions 4 Heroes</option>
+                                <option>Request TBI resources</option>
+                                <option>Something else</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="Tell us how you'd like to help…"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">Send Message</button>
+                        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CTA BANNER ============ -->
+        <section class="cta-banner">
+            <div class="container cta-inner reveal">
+                <h2>@ctaHeading</h2>
+                <a class="btn btn-primary" href="#contact">Join the fight</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a class="brand" href="#top">
+                    <span class="brand-mark" aria-hidden="true">4</span>
+                    <span class="brand-text">Champions <span class="brand-num">4</span> Heroes</span>
+                </a>
+                <p>@footerText</p>
+                <p class="footer-ein">EIN 85-2456580 · Rothbury, Michigan</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#mission">Mission</a></li>
+                    <li><a href="#story">Nate's Story</a></li>
+                    <li><a href="#programs">What We Do</a></li>
+                    <li><a href="#watch">Watch</a></li>
+                    <li><a href="#involved">Get Involved</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="@facebookUrl" target="_blank" rel="noopener noreferrer">Mel Twining on Facebook</a></li>
+                    <li><a href="@facebookVideoUrl" target="_blank" rel="noopener noreferrer">Remembering Nate (video)</a></li>
+                    <li><a href="@youtubeUrl" target="_blank" rel="noopener noreferrer">The Nathan Twining Story</a></li>
+                    <li><a href="https://www.fisherhouse.org/" target="_blank" rel="noopener noreferrer">Fisher House Foundation</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <p>&copy; <span id="year">2026</span> Michael Nathan Twining Foundation · Champions 4 Heroes. All rights reserved.</p>
+            <p class="footer-note">Honoring our heroes by serving those who served.</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8l-4.6 4.6L5 12l7-7Z"/></svg>
+    </button>
+
+    <script src="@Url.Content("~/js/main.js")" defer></script>
+</body>
+</html>
