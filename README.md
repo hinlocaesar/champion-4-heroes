@@ -86,13 +86,34 @@ Everything on the page comes from the **Home** content item — open the back of
 edits made in the back office. To change the default wording for future installs, edit the `Fields` table in
 `Components/SiteSeedHandler.cs`.
 
+## Blog
+
+`/blog` is a full Umbraco section with its own listing page and one page per post.
+
+- **Listing page** (`blog` document type) at `/blog` — edit the title and lead paragraph there.
+- **Posts** (`blogPost` document type) live under the listing. Each post has: Title, Posted by, Event,
+  Body, Image file, Image alt text, and the original Facebook post URL.
+- **Images** live in `wwwroot/img/blog/` and are referenced by filename in the `imageFile` field.
+  Posts without a downloaded image fall back to a branded "4" placeholder.
+
+`BlogSeedHandler` seeds 12 posts taken from the organization's Facebook posts, and only creates the
+ones that are missing — so adding a post in the back office is never undone on restart. To change the
+seeded posts, edit the `Posts` table in `Components/BlogSeedHandler.cs`.
+
+Six of the twelve posts have images. Facebook's crawler endpoint returned a login wall for the other
+six, so those posts publish without an image until you upload one in the back office.
+
 ## Project layout
 
 ```
 Program.cs                     Umbraco bootstrapping
-Composers/SiteComposer.cs      Registers the seeding handler
-Components/SiteSeedHandler.cs  Creates the document type + seeds the first page
-Views/Home.cshtml              The page itself (all content read from Umbraco)
+Composers/SiteComposer.cs      Registers the seeding handlers
+Components/SiteSeedHandler.cs  Creates the home document type + seeds the first page
+Components/BlogSeedHandler.cs  Creates the blog types + seeds the posts
+Views/Home.cshtml              The home page (all content read from Umbraco)
+Views/BlogListing.cshtml       /blog — the post grid
+Views/BlogPost.cshtml          A single blog post
+wwwroot/img/blog/              Blog post images
 wwwroot/css/styles.css         Design system + responsive layout
 wwwroot/js/main.js             Nav, scroll effects, contact form
 appsettings.json               Shared configuration
@@ -108,6 +129,10 @@ umbraco/Data/*.sqlite.db       Local database (git-ignored — never committed)
 | *The Nathan Twining Story* (Fisher House Foundation) | https://www.youtube.com/watch?v=fmotPKW5c-s |
 | Remembering Nate Twining (Friends of Fisher House – Illinois) | https://www.facebook.com/watch/?v=365086695465717 |
 | Mel Twining on Facebook | https://www.facebook.com/nate.twining.733/ |
+
+The 12 blog posts were sourced from the organization's Facebook posts (shared via Eva D. Jones-Young,
+Janie Bracero, Brenda Glur Spinks, Hector Camacho Jr., Bacolod City PIO, Hines VA Hospital, and
+Ritchel N Twining). Each post links back to its original Facebook URL.
 
 Copy and imagery: the site uses the YouTube video stills, since no photo assets were supplied. Drop real
 photography into `wwwroot/media` and pick it up as Umbraco media when available.

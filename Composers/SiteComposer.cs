@@ -12,5 +12,6 @@ namespace champion_4_heroes.Composers;
 public sealed class SiteComposer : IComposer
 {
     public void Compose(IUmbracoBuilder builder) =>
-        builder.AddNotificationHandler<UmbracoApplicationStartedNotification, SiteSeedHandler>();
+        builder.AddNotificationHandler<UmbracoApplicationStartedNotification, SiteSeedHandler>()
+            .AddNotificationHandler<UmbracoApplicationStartedNotification, BlogSeedHandler>();
 }

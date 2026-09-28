@@ -1,0 +1,167 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = null;
+
+    string V(string alias) => Model.Value<string>(alias) ?? string.Empty;
+
+    var title = V("postTitle");
+    var author = V("postAuthor");
+    var eventTag = V("eventTag");
+    var body = V("postBody");
+    var image = V("imageFile");
+    var imageAlt = V("imageAlt");
+    var sourceUrl = V("sourceUrl");
+
+    // Model.Parent is an extension method here, so call it explicitly.
+    IPublishedContent? parent = Model.Parent();
+    var siblings = parent is not null
+        ? parent.ChildrenOfType("blogPost")
+            .Where(x => x.IsVisible() && x.Id != Model.Id)
+            .OrderBy(x => x.Name)
+            .Take(3)
+            .ToList()
+        : new List<IPublishedContent>();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@title — Champions 4 Heroes</title>
+    <meta name="description" content="@body" />
+    <meta name="theme-color" content="#0b0f14" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="@Url.Content("~/css/styles.css")" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230b0f14'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial Black,Arial' fill='%23f2c14e'>4</text></svg>" />
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="siteHeader">
+        <div class="container nav-wrap">
+            <a class="brand" href="@Url.Content("~/")" aria-label="Champions 4 Heroes home">
+                <span class="brand-mark" aria-hidden="true">4</span>
+                <span class="brand-text">Champions <span class="brand-num">4</span> Heroes</span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="site-nav" id="siteNav" aria-label="Primary">
+                <ul>
+                    <li><a href="@Url.Content("~/")#mission">Mission</a></li>
+                    <li><a href="@Url.Content("~/")#story">Nate's Story</a></li>
+                    <li><a href="@Url.Content("~/")#programs">What We Do</a></li>
+                    <li><a href="@Url.Content("~/")#watch">Watch</a></li>
+                    <li><a href="@Url.Content("~/blog/")">Blog</a></li>
+                    <li><a href="@Url.Content("~/")#involved">Get Involved</a></li>
+                </ul>
+                <a class="btn btn-primary btn-sm nav-cta" href="@Url.Content("~/")#involved">Support the Mission</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <article class="section">
+            <div class="container post-wrap">
+                <a class="back-link" href="@Url.Content("~/blog/")">&larr; All posts</a>
+
+                <header class="post-head reveal">
+                    @if (!string.IsNullOrWhiteSpace(eventTag))
+                    {
+                        <span class="blog-tag">@eventTag</span>
+                    }
+                    <h1>@title</h1>
+                    @if (!string.IsNullOrWhiteSpace(author))
+                    {
+                        <p class="post-by">Posted by @author</p>
+                    }
+                </header>
+
+                @if (!string.IsNullOrWhiteSpace(image))
+                {
+                    <figure class="post-figure reveal">
+                        <img src="@Url.Content($"~/img/blog/{image}")" alt="@imageAlt" />
+                    </figure>
+                }
+
+                <div class="post-body reveal">
+                    @foreach (var paragraph in (body ?? string.Empty).Split('\n', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <p>@paragraph.Trim()</p>
+                    }
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(sourceUrl))
+                {
+                    <p class="post-source">
+                        <a class="btn btn-ghost" href="@sourceUrl" target="_blank" rel="noopener noreferrer">
+                            View the original post on Facebook
+                        </a>
+                    </p>
+                }
+            </div>
+        </article>
+
+        @if (siblings.Count > 0)
+        {
+            <section class="section section-alt">
+                <div class="container">
+                    <div class="section-head reveal">
+                        <p class="eyebrow">More from the community</p>
+                        <h2>Keep reading</h2>
+                    </div>
+
+                    <div class="blog-grid">
+                        @foreach (var other in siblings)
+                        {
+                            var otherImage = other.Value<string>("imageFile");
+                            var otherAlt = other.Value<string>("imageAlt");
+                            var otherTitle = other.Value<string>("postTitle");
+                            var otherAuthor = other.Value<string>("postAuthor");
+                            var href = other.Url();
+
+                            <article class="blog-card reveal">
+                                <a class="blog-card-media" href="@href" tabindex="-1" aria-hidden="true">
+                                    @if (!string.IsNullOrWhiteSpace(otherImage))
+                                    {
+                                        <img src="@Url.Content($"~/img/blog/{otherImage}")" alt="@otherAlt" loading="lazy" />
+                                    }
+                                    else
+                                    {
+                                        <span class="blog-card-placeholder">4</span>
+                                    }
+                                </a>
+                                <div class="blog-card-body">
+                                    <h3><a href="@href">@otherTitle</a></h3>
+                                    <div class="blog-card-meta">
+                                        <span>@otherAuthor</span>
+                                        <a class="text-link" href="@href">Read more</a>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                </div>
+            </section>
+        }
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-bottom">
+            <p>&copy; <span id="year">2026</span> Michael Nathan Twining Foundation · Champions 4 Heroes. All rights reserved.</p>
+            <p class="footer-note">Honoring our heroes by serving those who served.</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8l-4.6 4.6L5 12l7-7Z"/></svg>
+    </button>
+
+    <script src="@Url.Content("~/js/main.js")" defer></script>
+</body>
+</html>
