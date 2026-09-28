@@ -128,9 +128,9 @@ card falls back to the branded "4" placeholder instead of a broken image.
 Most of the photos are portrait phone shots, so images are cropped from the top (`object-position:
 center top`) to keep faces in frame.
 
-The alt text was written by looking at each photograph. It describes what is actually visible and
-deliberately does not name anyone it cannot identify from the image alone, so revise any entry you
-would word differently — an editor's own alt text is never overwritten.
+Alt text is intentionally left empty for every image. Add a description in the back office
+(**Image alt text**) when you have one written — an empty alt is invisible to screen readers, so this
+is worth doing before launch. An editor's value is never overwritten once set.
 
 ## Project layout
 

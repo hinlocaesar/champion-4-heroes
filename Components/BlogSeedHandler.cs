@@ -44,7 +44,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "CHAMPIONS 4 HEROS need I say more!!! LETS GO!!! We are out to help our veterans, athletes and " +
             "their caregivers!!!",
             "wbc-national-boxing-hall-of-fame.jpg",
-            "Five people pose in front of a WBC and National Boxing Hall of Fame backdrop; the man in the centre wears a Champions 4 Heroes t-shirt under his blazer",
+            string.Empty,
             "https://www.facebook.com/share/p/1MW7GY6Kte/"),
 
         new(
@@ -56,7 +56,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "our powerful team members from Champions 4 Heroes. See everyone tomorrow at the Celebrity Fist " +
             "Casting!",
             "trilogy.jpg",
-            "Poster for the International Boxing Hall of Fame Trilogy ceremony in Canastota, New York, 9 to 12 June 2022, honouring the 2020, 2021 and 2022 induction classes",
+            string.Empty,
             "https://www.facebook.com/share/p/19kwttHumJ/"),
 
         new(
@@ -66,7 +66,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Atlantic City Boxing Hall of Fame",
             "Champions 4 Heroes on the way to ACBHOF for a spectacular weekend to remember!!",
             "usteam.jpg",
-            "Six people, most in yellow Indiana Boxing Hall of Fame t-shirts, raise their fists together outside a house; one man wears a Champions 4 Heroes cap",
+            string.Empty,
             "https://www.facebook.com/share/p/1JpLEWjHGL/"),
 
         new(
@@ -77,7 +77,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "This weekend it will be Macho time! Champions 4 Heroes, Hall of Fame weekend. Special thanks to " +
             "Nate Twining, Jay Torres and the crew.",
             "macho-time-hall-of-fame-weekend.jpg",
-            "Flyer for the Macho Time fundraiser on 11 December 2021 at Barra Brava Sports Bar in Dallas, honouring Champions and Heroes and benefiting the Michael Twining Foundation, featuring professional boxer Hector Camacho Jr.",
+            string.Empty,
             "https://www.facebook.com/share/p/1DsqPQuYjL/"),
 
         new(
@@ -88,7 +88,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Thank you Miss Janie for all the beautiful pictures and taking care of me at our home in " +
             "California. I am so glad you came and support me and Champions 4 Heroes. We love you.",
             "janie-bracero-thank-you.jpg",
-            "Three people pose indoors; a man in a bowler hat wears an Olympic gold medalist t-shirt, flanked by two women raising their fists",
+            string.Empty,
             "https://www.facebook.com/share/p/1EN9kEtbyb/"),
 
         new(
@@ -100,7 +100,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "not-for-profit organization that helps our military men and women, and our athletes with " +
             "traumatic brain injury.",
             "indiana-sports-hall-of-fame.jpg",
-            "Five people eat and talk on the wooden deck of a log cabin, with a lake and forest in the background",
+            string.Empty,
             "https://www.facebook.com/share/p/1LiBjuVSPF/"),
 
         new(
@@ -110,7 +110,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "National Boxing Hall of Fame",
             "Some photos from the National Boxing Hall of Fame, uploaded late.",
             "mosley.jpg",
-            "Two men smile and raise a fist together in a hotel lobby, one in a checked shirt and one in a dark blue shirt",
+            string.Empty,
             "https://www.facebook.com/share/r/1EaJCDe1d9/"),
 
         new(
@@ -122,8 +122,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "great Leon Spinks. Congratulations Brenda on your award from the International Women's Boxing " +
             "Hall of Fame!",
             "brenda-spinks-award.jpg",
-            "Mel Twining, wearing a Champions 4 Heroes t-shirt, photographed with Brenda Spinks at the " +
-            "International Women's Boxing Hall of Fame",
+            string.Empty,
             "https://www.facebook.com/share/p/1HYTr6QsFZ/"),
 
         new(
@@ -134,7 +133,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "With friends Mel and his beautiful wife Chel (Mel Twining), and Michael Spinks too! Mel runs the " +
             "Nate Twining Foundation, Champions 4 Heroes, which does great things to recognize and help veterans.",
             "bernardhopkins.jpg",
-            "Four people pose at a restaurant table, with a seated man in a black BHOF cap gesturing toward the camera",
+            string.Empty,
             "https://www.facebook.com/share/p/1d4qqrvBkC/"),
 
         new(
@@ -145,7 +144,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Champions 4 Heroes is a non-profit organization uniting veterans and boxing champions to promote " +
             "advocacy, provide resources, and educate the community on the effects of traumatic brain injury.",
             "completeteam.jpg",
-            "Collage from a Champions 4 Heroes Facebook post showing the organization logo and mission statement alongside event photographs and a U.S. Army case holding red, white and blue boxing gloves",
+            string.Empty,
             "https://www.facebook.com/share/p/1BqGKk9ChN/"),
 
         new(
@@ -157,7 +156,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "the 2022 USA Special Abilities Unified Cheer ICU. The champion cheerleaders gifted Veterans and " +
             "staff with a Champion gift.",
             "hines-va-champions-gift.jpg",
-            "USA Cheer athletes in white and navy uniforms, wearing gold medals and red bows, celebrate outside a hospital emergency entrance with ambulances behind them",
+            string.Empty,
             "https://www.facebook.com/share/p/1DpFgtgyan/"),
 
         new(
@@ -168,7 +167,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Newly crowned WBO super flyweight champion Donnie \"Ahas\" Nietes receives a hero's welcome in " +
             "Bacolod, with local officials joining him in a celebration of his achievement.",
             "bacolod-hero-welcome-nietes.jpg",
-            "Around twenty people pose behind a red-covered table displaying several ornate boxing championship belts, in front of a Bacolod City Boxing Association banner",
+            string.Empty,
             "https://www.facebook.com/share/p/1EhtBVrcsB/"),
     };
 
@@ -333,14 +332,15 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
                     seed.ImageAlt,
                     StringComparison.OrdinalIgnoreCase));
 
-        if (liveImageMatches && liveAltMatches)
+        // Only fill blanks — an editor's own image or description is left alone. Set
+        // C4H_FORCE_IMAGE_REFRESH=1 to re-assert the seeded values after a correction,
+        // including clearing an alt text the seed no longer supplies.
+        bool forceRefresh = Environment.GetEnvironmentVariable("C4H_FORCE_IMAGE_REFRESH") == "1";
+
+        if (!forceRefresh && liveImageMatches && liveAltMatches)
         {
             return false;
         }
-
-        // Only fill blanks — an editor's own image or description is left alone. Set
-        // C4H_FORCE_IMAGE_REFRESH=1 to re-assert the seeded values after a correction.
-        bool forceRefresh = Environment.GetEnvironmentVariable("C4H_FORCE_IMAGE_REFRESH") == "1";
 
         if (forceRefresh || string.IsNullOrWhiteSpace(post.GetValue<string>("imageFile")))
         {
