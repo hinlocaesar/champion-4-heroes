@@ -487,3 +487,6 @@ umbraco-package-schema.json
 
 # Media files
 /wwwroot/media/
+
+# Static export output (rebuilt by tools/export-static.js)
+/dist/

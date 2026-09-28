@@ -1,0 +1,99 @@
+name: Deploy site to GitHub Pages
+
+# The live site is a static export. This workflow builds the Umbraco app on
+# GitHub's runner, renders every route to HTML, and publishes the result.
+# Netlify cannot host Umbraco directly (ephemeral filesystem, no persistent
+# database), which is why the CMS is only ever used as a build-time tool.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # This file is git-ignored, so the unattended install needs a throwaway
+      # admin here. The runner is ephemeral and never exposed publicly.
+      - name: Create development settings
+        run: |
+          cat > appsettings.Development.json <<'JSON'
+          {
+            "Serilog": { "MinimumLevel": { "Default": "Warning" } },
+            "ConnectionStrings": {
+              "umbracoDbDSN": "Data Source=|DataDirectory|/Umbraco.sqlite.db;Cache=Shared;Foreign Keys=True;Pooling=True",
+              "umbracoDbDSN_ProviderName": "Microsoft.Data.Sqlite"
+            },
+            "Umbraco": {
+              "CMS": {
+                "Unattended": {
+                  "InstallUnattended": true,
+                  "UnattendedUserName": "Build",
+                  "UnattendedUserEmail": "build@localhost",
+                  "UnattendedUserPassword": "BuildOnlyPassword!1",
+                  "UnattendedTelemetryLevel": "Minimal"
+                },
+                "WebRouting": { "UmbracoApplicationUrl": "http://localhost:5099" },
+                "Hosting": { "Debug": false }
+              }
+            }
+          }
+          JSON
+
+      - name: Build
+        run: dotnet build -c Release --nologo
+
+      - name: Start the app and let it seed itself
+        run: |
+          chmod +x ./bin/Release/net10.0/champion-4-heroes
+          ASPNETCORE_ENVIRONMENT=Development \
+          ASPNETCORE_URLS=http://localhost:5099 \
+          C4H_FORCE_IMAGE_REFRESH=1 \
+            ./bin/Release/net10.0/champion-4-heroes > app.log 2>&1 &
+
+          for i in $(seq 1 90); do
+            if curl -fsS http://localhost:5099/ > /dev/null 2>&1; then
+              echo "app is up after ${i} tries"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "::error::the app did not start"
+          tail -50 app.log
+          exit 1
+
+      - name: Export the static site
+        run: node tools/export-static.js http://localhost:5099 /champion-4-heroes
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

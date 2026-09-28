@@ -179,11 +179,52 @@ Until then the form validates input and shows an on-screen confirmation.
 
 ## Deploying
 
-- Build and publish: `dotnet publish -c Release -o ./out`
-- Host on any Windows/Linux host that runs .NET 10 (Azure App Service, Umbraco Cloud, IIS, Docker).
-- Set a real connection string and set `Umbraco:CMS:WebRouting:UmbracoApplicationUrl` so back-office emails work.
-- Never ship `appsettings.Development.json` with unattended install enabled on a public site. Create the
-  administrator once via `/umbraco`, then set `InstallUnattended` to `false` and manage users through the back office.
+The live site is a **static export**. Netlify, GitHub Pages and Cloudflare Pages host static files;
+they cannot run Umbraco itself, because the app needs a persistent filesystem for its SQLite
+database and a long-running process for background jobs. So Umbraco is the editing tool, and the
+export is what gets published.
+
+### Exporting locally
+
+```bash
+dotnet run                                    # in one terminal
+node tools/export-static.js http://localhost:50104
+```
+
+That writes `dist/`: 14 prerendered pages (`/`, `/blog/`, and the 12 posts) plus the styles,
+scripts and images. Any new post is picked up automatically, because the export follows the site's
+own links rather than a hardcoded list.
+
+### GitHub Pages
+
+`.github/workflows/deploy-pages.yml` does the whole thing on every push to `main`: it builds the
+app, starts it so it seeds itself, exports the static site, and publishes `dist/` to Pages.
+
+To switch it on, in the repo go to **Settings → Pages → Build and deployment → Source → GitHub
+Actions**. The site then appears at `https://hinlocaesar.github.io/champion-4-heroes/`.
+
+The workflow passes the base path `/champion-4-heroes` to the export, which rewrites root-relative
+URLs so the site works from a sub-path. If you later attach a custom domain and serve from the
+domain root, change that one argument to `""`.
+
+### Netlify or Cloudflare Pages
+
+Either host works from the same `dist/` folder — no build command needed, since the workflow
+already produces it. Copy the folder contents into a new site and set the publish directory to
+`dist` (or `dist` with no build command on Netlify).
+
+### What deploying statically means for editing
+
+The back office at `/umbraco` is a **local tool only** — it is not deployed. Content changes flow
+like this:
+
+1. Edit and publish in the local back office (or edit the seed tables in `Components/`)
+2. Re-run the export
+3. Commit and push, which re-runs the workflow
+
+Because the content lives in version-controlled code, every content change is reviewable in a pull
+request and the deployed site is always reproducible from the repository.
+
 
 ## Content notes
 
