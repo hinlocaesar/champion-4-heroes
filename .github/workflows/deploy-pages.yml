@@ -72,8 +72,26 @@ jobs:
       - name: Start the app, let it seed itself, and export
         # GitHub tears down background processes at the end of a `run` step, so the
         # server must be started and used inside this single step.
+        #
+        # Workflow logs can only be read with a token, so the useful parts are
+        # re-emitted as check annotations, which are public.
         run: |
           set +e
+
+          announce() {
+            # usage: announce <level> <file> <max lines>
+            local level="$1" file="$2" max="$3" n=0 line
+            [ -f "$file" ] || return 0
+            while IFS= read -r line; do
+              n=$((n + 1))
+              [ "$n" -gt "$max" ] && break
+              line="${line//'%'/'%25'}"
+              line="${line//$'\r'/'%0D'}"
+              echo "::$level::$line"
+            done < "$file"
+            return 0
+          }
+
           chmod +x ./bin/Release/net10.0/champion-4-heroes
 
           ASPNETCORE_ENVIRONMENT=Development \
@@ -95,17 +113,23 @@ jobs:
 
           if [ "$READY" -ne 1 ]; then
             echo "::error::the app did not start within 6 minutes"
-            tail -100 app.log
+            tail -100 app.log > app-tail.log
+            announce error app-tail.log 40
             exit 1
+          fi
+
+          if kill -0 "$APP_PID" 2>/dev/null; then
+            echo "::notice::app process still alive right before the export"
+          else
+            echo "::error::app process died before the export started"
           fi
 
           # Passed through the environment so the value never lands inside the
           # shell's own quoting.
           export PAGES_BASE_PATH="${{ steps.pages.outputs.base_path }}"
           echo "base path: '${PAGES_BASE_PATH}'"
-          echo "node: $(node --version)"
 
-          node tools/export-static.js "http://localhost:5099" "$PAGES_BASE_PATH"
+          node tools/export-static.js "http://localhost:5099" "$PAGES_BASE_PATH" > export.log 2>&1
           STATUS=$?
 
           echo "export exit status: $STATUS"
@@ -113,7 +137,16 @@ jobs:
 
           if [ "$STATUS" -ne 0 ]; then
             echo "::error::the static export failed"
-            tail -40 app.log
+            announce error export.log 40
+            tail -30 app.log > app-tail.log
+            announce error app-tail.log 30
+            if kill -0 "$APP_PID" 2>/dev/null; then
+              echo "::error::app process survived the export failure"
+            else
+              echo "::error::app process is gone - it died or was killed mid-export"
+            fi
+          else
+            announce notice export.log 6
           fi
 
           kill "$APP_PID" 2>/dev/null

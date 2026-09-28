@@ -93,13 +93,26 @@ function countFiles(dir) {
 }
 
 (async () => {
-  console.log(`Exporting from ${BASE}`);
+  console.log(`Exporting from ${BASE} (node ${process.version})`);
 
-  try {
-    const probe = await fetch(BASE + '/');
-    if (!probe.ok) throw new Error(`HTTP ${probe.status}`);
-  } catch (e) {
-    console.error(`\nCould not reach ${BASE}. Start the app first:  dotnet run\n(${e.message})\n`);
+  // The app may have just finished booting, so a first refusal is retried
+  // rather than treated as fatal.
+  let lastError = null;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const probe = await fetch(BASE + '/');
+      if (!probe.ok) throw new Error(`HTTP ${probe.status}`);
+      lastError = null;
+      break;
+    } catch (e) {
+      lastError = e;
+      console.warn(`  probe attempt ${attempt} failed (${e.message}), retrying`);
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+
+  if (lastError) {
+    console.error(`\nCould not reach ${BASE}. Start the app first:  dotnet run\n(${lastError.message})\n`);
     process.exit(1);
   }
 
