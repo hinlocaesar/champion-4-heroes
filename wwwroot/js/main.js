@@ -1,6 +1,12 @@
 /* =========================================================
    Champions 4 Heroes — main.js
    ========================================================= */
+
+// Tell the stylesheet that scripting is available. The scroll-reveal animation
+// is gated behind this class, so if this script never runs the content stays
+// visible instead of being stuck at opacity 0.
+document.documentElement.classList.add("js");
+
 (function () {
   "use strict";
 
@@ -73,8 +79,17 @@
     });
   }
 
-  /* ---------- Scroll reveal ---------- */
+  /* ---------- Scroll reveal ----------
+     The observer drives the animation; the failsafe guarantees nothing is
+     ever left hidden if the observer misses an element. */
   var revealEls = document.querySelectorAll(".reveal");
+
+  function revealAll() {
+    revealEls.forEach(function (el) {
+      el.classList.add("is-visible");
+    });
+  }
+
   if ("IntersectionObserver" in window && revealEls.length) {
     var revealObserver = new IntersectionObserver(
       function (entries, observer) {
@@ -90,10 +105,12 @@
     revealEls.forEach(function (el) {
       revealObserver.observe(el);
     });
+
+    // Failsafe: show anything still hidden shortly after load, and on print.
+    window.setTimeout(revealAll, 4000);
+    window.addEventListener("beforeprint", revealAll);
   } else {
-    revealEls.forEach(function (el) {
-      el.classList.add("is-visible");
-    });
+    revealAll();
   }
 
   /* ---------- Active nav link ---------- */

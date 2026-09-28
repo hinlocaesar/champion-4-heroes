@@ -171,6 +171,7 @@ strong { color: var(--bone); font-weight: 600; }
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  min-height: 24px;
   color: var(--gold);
   text-decoration: none;
   font-weight: 600;
@@ -717,6 +718,9 @@ strong { color: var(--bone); font-weight: 600; }
   text-decoration: none;
   font-weight: 500;
   word-break: break-word;
+  display: inline-block;
+  min-height: 24px;
+  padding-block: 0.15rem;
 }
 .contact-list a:hover { color: var(--gold); }
 
@@ -774,7 +778,7 @@ strong { color: var(--bone); font-weight: 600; }
   position: relative;
   padding: clamp(3.5rem, 7vw, 5.5rem) 0;
   background:
-    linear-gradient(120deg, rgba(193, 51, 47, 0.9), rgba(13, 19, 27, 0.92)),
+    linear-gradient(120deg, rgba(150, 34, 32, 0.965), rgba(11, 15, 20, 0.975)),
     url("https://i.ytimg.com/vi/fmotPKW5c-s/hqdefault.jpg") center / cover;
   border-block: 1px solid var(--line);
 }
@@ -815,6 +819,9 @@ strong { color: var(--bone); font-weight: 600; }
   text-decoration: none;
   color: var(--muted);
   font-size: 0.95rem;
+  /* Keeps the tap target at 24px+ on touch screens (WCAG 2.2 target size). */
+  display: inline-block;
+  padding-block: 0.3rem;
   transition: color 0.2s ease;
 }
 .footer-col a:hover { color: var(--gold); }
@@ -997,7 +1004,15 @@ strong { color: var(--bone); font-weight: 600; }
   border: 1px solid var(--line);
 }
 
-.post-figure img { display: block; width: 100%; height: auto; }
+/* Portrait phone photos are very tall, so cap the height and crop rather than
+   letting a single image push the article off the screen. */
+.post-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: cover;
+}
 
 .post-body p {
   margin: 0 0 1.15rem;
@@ -1008,20 +1023,33 @@ strong { color: var(--bone); font-weight: 600; }
 
 .post-source { margin: 2rem 0 0; }
 
-/* ---------- Reveal animation ---------- */
+/* ---------- Reveal animation ----------
+   Content is visible by default. The hidden start state is applied only once
+   main.js has confirmed it can run, so a script error or a browser with
+   JavaScript disabled can never leave the page blank. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
   opacity: 0;
   transform: translateY(26px);
   transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
 }
-.reveal[data-delay="1"] { transition-delay: 0.1s; }
-.reveal[data-delay="2"] { transition-delay: 0.2s; }
-.reveal[data-delay="3"] { transition-delay: 0.3s; }
-.reveal.is-visible { opacity: 1; transform: none; }
+.js .reveal[data-delay="1"] { transition-delay: 0.1s; }
+.js .reveal[data-delay="2"] { transition-delay: 0.2s; }
+.js .reveal[data-delay="3"] { transition-delay: 0.3s; }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Printing should never depend on scroll position. */
+@media print {
+  .js .reveal { opacity: 1 !important; transform: none !important; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
