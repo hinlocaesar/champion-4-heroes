@@ -121,13 +121,16 @@ the new name, then start normally again.
 | Champions Gift to the VA at Hines | `hines-va-champions-gift.jpg` |
 | Hero's Welcome in Bacolod | `bacolod-hero-welcome-nietes.jpg` |
 
-All twelve posts have an image. Facebook's crawler endpoint served six of them; the rest were
-login-walled and dropped in by hand. If a post points at a file that is not on disk, the card falls
-back to the branded "4" placeholder instead of a broken image. Fill in the **Image alt text** field
-when you add a picture — an empty alt is invisible to screen readers.
+All twelve posts have an image and alt text. Facebook's crawler endpoint served six of the images;
+the rest were login-walled and dropped in by hand. If a post points at a file that is not on disk, the
+card falls back to the branded "4" placeholder instead of a broken image.
 
 Most of the photos are portrait phone shots, so images are cropped from the top (`object-position:
 center top`) to keep faces in frame.
+
+The alt text was written by looking at each photograph. It describes what is actually visible and
+deliberately does not name anyone it cannot identify from the image alone, so revise any entry you
+would word differently — an editor's own alt text is never overwritten.
 
 ## Project layout
 
