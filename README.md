@@ -201,14 +201,19 @@ own links rather than a hardcoded list.
 app, starts it so it seeds itself, exports the static site, and publishes `dist/` to Pages.
 
 **One-time setup:** in the repo go to **Settings → Pages → Build and deployment → Source** and choose
-**GitHub Actions**. Until that is set, the workflow builds successfully and then stops at the
-`configure-pages` step with "Get Pages site failed".
+**GitHub Actions**. Ignore the "GitHub Pages Jekyll" and "Static HTML" cards underneath — those are
+starter templates for people deploying *from a branch*, and this repository already ships its own
+workflow.
+
+The site is created by the first successful run, so nothing appears on that settings page until then.
+To trigger it by hand, open the **Actions** tab, pick **Deploy site to GitHub Pages**, and press
+**Run workflow**.
 
 The site then appears at `https://hinlocaesar.github.io/champion-4-heroes/`.
 
-The workflow passes the base path `/champion-4-heroes` to the export, which rewrites root-relative
-URLs so the site works from a sub-path. If you later attach a custom domain and serve from the
-domain root, change that one argument to `""`.
+The workflow reads the base path from `configure-pages` rather than hardcoding it, so the export
+adapts automatically. With a custom domain the base path is empty and no change is needed; without
+one it is `/champion-4-heroes`.
 
 ### Or skip Pages entirely: drag and drop
 
