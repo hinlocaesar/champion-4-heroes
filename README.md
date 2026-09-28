@@ -200,12 +200,22 @@ own links rather than a hardcoded list.
 `.github/workflows/deploy-pages.yml` does the whole thing on every push to `main`: it builds the
 app, starts it so it seeds itself, exports the static site, and publishes `dist/` to Pages.
 
-To switch it on, in the repo go to **Settings → Pages → Build and deployment → Source → GitHub
-Actions**. The site then appears at `https://hinlocaesar.github.io/champion-4-heroes/`.
+**One-time setup:** in the repo go to **Settings → Pages → Build and deployment → Source** and choose
+**GitHub Actions**. Until that is set, the workflow builds successfully and then stops at the
+`configure-pages` step with "Get Pages site failed".
+
+The site then appears at `https://hinlocaesar.github.io/champion-4-heroes/`.
 
 The workflow passes the base path `/champion-4-heroes` to the export, which rewrites root-relative
 URLs so the site works from a sub-path. If you later attach a custom domain and serve from the
 domain root, change that one argument to `""`.
+
+### Or skip Pages entirely: drag and drop
+
+If you would rather not touch repository settings, `dist/` can go to any static host by hand.
+Build it locally, then drop the folder on
+[Netlify Drop](https://app.netlify.com/drop) (or Cloudflare Pages direct upload) and it is live in
+about a minute. Netlify is a fine place for the exported site — it just cannot run the CMS.
 
 ### Netlify or Cloudflare Pages
 
