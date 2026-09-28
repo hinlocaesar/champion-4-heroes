@@ -14,6 +14,15 @@ injury by bringing veterans and boxing champions together — with Nate's story.
 
 ## Run it
 
+Copy the example settings and give yourself an admin login:
+
+```bash
+cp appsettings.Development.example.json appsettings.Development.json
+```
+
+Then edit `appsettings.Development.json` and set `UnattendedUserName`, `UnattendedUserEmail` and
+`UnattendedUserPassword` to your own values. That file is git-ignored — credentials never get committed.
+
 ```bash
 dotnet run
 ```
@@ -32,14 +41,12 @@ dotnet run --urls http://localhost:5099
 On the very first start Umbraco will:
 
 1. Create the SQLite database (`umbraco/Data/Umbraco.sqlite.db`) and install itself unattended.
-2. Sign you in with the development administrator created from `appsettings.Development.json`:
-   - email: `admin@champions4heroes.org`
-   - password: `Champions4Heroes!`
+2. Create the administrator from your `appsettings.Development.json`, so you can sign in at `/umbraco`.
 3. Run `SiteSeedHandler`, which creates the **Home** document type (38 properties across 8 tabs), the
    `Home` template, and a published home page so `/` renders immediately.
 
-> ⚠️ Change the administrator password and the `Unattended` settings in `appsettings.Development.json`
-> before this goes anywhere public.
+> The unattended install only runs when the database is empty. To start over, stop the app and delete
+> `umbraco/Data/*.sqlite.db*`.
 
 ## How the content is managed
 
@@ -68,7 +75,9 @@ Components/SiteSeedHandler.cs  Creates the document type + seeds the first page
 Views/Home.cshtml              The page itself (all content read from Umbraco)
 wwwroot/css/styles.css         Design system + responsive layout
 wwwroot/js/main.js             Nav, scroll effects, contact form
-appsettings*.json              Configuration (SQLite, unattended install)
+appsettings.json               Shared configuration
+appsettings.Development.json   Local dev settings — git-ignored, holds your admin login
+appsettings.Local.json         Optional per-machine override, also git-ignored
 umbraco/Data/*.sqlite.db       Local database (git-ignored — never committed)
 ```
 
@@ -98,8 +107,9 @@ Until then the form validates input and shows an on-screen confirmation.
 
 - Build and publish: `dotnet publish -c Release -o ./out`
 - Host on any Windows/Linux host that runs .NET 10 (Azure App Service, Umbraco Cloud, IIS, Docker).
-- Move the unattended install settings out of `appsettings.Development.json`, set a real
-  connection string, and set `Umbraco:CMS:WebRouting:UmbracoApplicationUrl` so back-office emails work.
+- Set a real connection string and set `Umbraco:CMS:WebRouting:UmbracoApplicationUrl` so back-office emails work.
+- Never ship `appsettings.Development.json` with unattended install enabled on a public site. Create the
+  administrator once via `/umbraco`, then set `InstallUnattended` to `false` and manage users through the back office.
 
 ## Content notes
 

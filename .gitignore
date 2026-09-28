@@ -460,6 +460,10 @@ $RECYCLE.BIN/
 # Local appsettings.json override
 appsettings.Local.json
 
+# Development settings contain the unattended-install admin credentials
+# Copy appsettings.Development.example.json to get started
+/appsettings.Development.json
+
 # JSON schema files for appsettings.json
 appsettings-schema.json
 appsettings-schema.*.json
