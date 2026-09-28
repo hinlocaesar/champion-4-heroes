@@ -1,5 +1,5 @@
 /* =========================================================
-   Champions 4 Heroes — main.js
+   Champions 4 Heroes - main.js
    ========================================================= */
 
 // Tell the stylesheet that scripting is available. The scroll-reveal animation
@@ -184,7 +184,7 @@ document.documentElement.classList.add("js");
           .then(function (res) {
             if (!res.ok) throw new Error("Request failed");
             formStatus.textContent =
-              "Thank you! Your message has been sent — we'll be in touch soon.";
+              "Thank you! Your message has been sent. We'll be in touch soon.";
             form.reset();
           })
           .catch(function () {
@@ -198,7 +198,7 @@ document.documentElement.classList.add("js");
       formStatus.textContent =
         "Thank you, " +
         name.value.trim().split(" ")[0] +
-        "! This form is ready to be connected to an inbox — until then, message us on Facebook.";
+        "! This form is ready to be connected to an inbox. Until then, message us on Facebook.";
       form.reset();
     });
   }

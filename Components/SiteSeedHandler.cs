@@ -31,7 +31,7 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
         new("hero", "Hero", "heroTitle", "Title", Constants.DataTypes.Textbox, "Champions 4 Heroes"),
         new("hero", "Hero", "heroLead", "Lead paragraph", Constants.DataTypes.Textarea,
             "We unite veterans and boxing champions to advocate for, support, and educate on the effects of " +
-            "traumatic brain injury — keeping alive the memory of Army Staff Sergeant Michael \"Nate\" Twining " +
+            "traumatic brain injury, keeping alive the memory of Army Staff Sergeant Michael \"Nate\" Twining " +
             "of the 101st Airborne."),
 
         // Mission
@@ -43,24 +43,24 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
             "injury and their families should never fight alone."),
         new("mission", "Mission", "pillar1Title", "Pillar 1 title", Constants.DataTypes.Textbox, "Advocacy"),
         new("mission", "Mission", "pillar1Text", "Pillar 1 text", Constants.DataTypes.Textarea,
-            "We speak up for veterans dealing with the long-term effects of blast exposure and combat injuries — " +
+            "We speak up for veterans dealing with the long-term effects of blast exposure and combat injuries, " +
             "pushing for recognition, care, and the resources they have earned."),
         new("mission", "Mission", "pillar2Title", "Pillar 2 title", Constants.DataTypes.Textbox, "Resources"),
         new("mission", "Mission", "pillar2Text", "Pillar 2 text", Constants.DataTypes.Textarea,
-            "We connect veterans and families with the organizations that changed our own lives — including Fisher " +
-            "House and Friends of Fisher House Illinois — plus a network of champions who show up."),
+            "We connect veterans and families with the organizations that changed our own lives, including Fisher " +
+            "House and Friends of Fisher House Illinois, plus a network of champions who show up."),
         new("mission", "Mission", "pillar3Title", "Pillar 3 title", Constants.DataTypes.Textbox, "Education"),
         new("mission", "Mission", "pillar3Text", "Pillar 3 text", Constants.DataTypes.Textarea,
-            "We teach communities, gyms, and families about traumatic brain injury — its signs, its effects, and why " +
+            "We teach communities, gyms, and families about traumatic brain injury: its signs, its effects, and why " +
             "early support can change the entire course of a life."),
 
         // Story
         new("story", "Nate's Story", "storyTitle", "Section title", Constants.DataTypes.Textbox,
             "Why this foundation exists"),
         new("story", "Nate's Story", "storyText1", "Paragraph 1", Constants.DataTypes.Textarea,
-            "Staff Sergeant Michael \"Nate\" Twining was a career 101st Airborne soldier — a combat tour in Iraq and " +
-            "another in Afghanistan. It wasn't a bullet or an IED that took him. It was a brain tumor, the result of " +
-            "exposure he encountered during those deployments."),
+            "Staff Sergeant Michael \"Nate\" Twining spent his career as a 101st Airborne soldier, with a combat tour " +
+            "in Iraq and another in Afghanistan. It wasn't a bullet or an IED that took him. It was a brain tumor, " +
+            "the result of exposure he encountered during those deployments."),
         new("story", "Nate's Story", "storyText2", "Paragraph 2", Constants.DataTypes.Textarea,
             "For two years and one week, Nate and his father Mel lived at the Chicago VA Fisher House while he " +
             "received treatment. In that time Nate touched everyone who knew him. When Nate died, Mel turned grief " +
@@ -79,12 +79,12 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
         new("programs", "What We Do", "program1Title", "Program 1 title", Constants.DataTypes.Textbox,
             "Champions & Veterans Together"),
         new("programs", "What We Do", "program1Text", "Program 1 text", Constants.DataTypes.Textarea,
-            "Exhibition bouts, gym sessions, and mentorship that put boxing champions side by side with veterans — " +
+            "Exhibition bouts, gym sessions, and mentorship that put boxing champions side by side with veterans, " +
             "building discipline, camaraderie, and a reason to keep showing up."),
         new("programs", "What We Do", "program2Title", "Program 2 title", Constants.DataTypes.Textbox,
             "TBI Awareness & Advocacy"),
         new("programs", "What We Do", "program2Text", "Program 2 text", Constants.DataTypes.Textarea,
-            "Talks, outreach, and campaigns that explain traumatic brain injury in plain language — what blast " +
+            "Talks, outreach, and campaigns that explain traumatic brain injury in plain language: what blast " +
             "exposure does, what to watch for, and where to turn for care."),
         new("programs", "What We Do", "program3Title", "Program 3 title", Constants.DataTypes.Textbox,
             "Family Support & Resources"),
@@ -94,8 +94,8 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
         new("programs", "What We Do", "program4Title", "Program 4 title", Constants.DataTypes.Textbox,
             "Events & Fundraising"),
         new("programs", "What We Do", "program4Text", "Program 4 text", Constants.DataTypes.Textarea,
-            "Community events and fundraisers that keep Nate's memory alive and fund the programs veterans rely on — " +
-            "every ticket, glove, and dollar has a name attached to it."),
+            "Community events and fundraisers that keep Nate's memory alive and fund the programs veterans rely on. " +
+            "Every ticket, glove, and dollar has a name attached to it."),
 
         // Watch
         new("watch", "Watch & Share", "watchTitle", "Section title", Constants.DataTypes.Textbox,
@@ -104,7 +104,7 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Share these films with a veteran, a gym, or a family that needs to know they are not alone."),
         new("watch", "Watch & Share", "watchNote", "Closing note", Constants.DataTypes.Textarea,
             "Today we remember and celebrate the life of Nate Twining. For more than two years, Mel and Nate stayed " +
-            "at Fisher House while Nate received treatment — and today, Mel keeps his son's memory alive through his " +
+            "at Fisher House while Nate received treatment, and today, Mel keeps his son's memory alive through his " +
             "own foundation."),
         new("watch", "Watch & Share", "youtubeUrl", "YouTube video URL", Constants.DataTypes.Textbox,
             "https://www.youtube.com/watch?v=fmotPKW5c-s"),
@@ -115,20 +115,20 @@ public sealed class SiteSeedHandler : INotificationHandler<UmbracoApplicationSta
         new("involved", "Get Involved", "involvedTitle", "Section title", Constants.DataTypes.Textbox,
             "Every champion starts with one round"),
         new("involved", "Get Involved", "involvedLead", "Section lead", Constants.DataTypes.Textarea,
-            "Whether you lace up, write a check, or simply share the story — there is a place for you here."),
+            "Whether you lace up, write a check, or simply share the story, there is a place for you here."),
         new("involved", "Get Involved", "ctaHeading", "Banner heading", Constants.DataTypes.Textbox,
             "For Nate. For every veteran. For every hero."),
 
         // Contact & footer
         new("contact", "Contact & Footer", "contactIntro", "Contact intro", Constants.DataTypes.Textarea,
-            "The fastest way to reach us is through Facebook — that's where our community gathers, shares events, " +
+            "The fastest way to reach us is through Facebook, which is where our community gathers, shares events, " +
             "and keeps Nate's story alive."),
         new("contact", "Contact & Footer", "facebookUrl", "Facebook profile URL", Constants.DataTypes.Textbox,
             "https://www.facebook.com/nate.twining.733/"),
         new("contact", "Contact & Footer", "address", "Mailing address", Constants.DataTypes.Textbox,
             "Michael Nathan Twining Foundation, 8212 S 116th Ave, Rothbury, MI 49452"),
         new("contact", "Contact & Footer", "footerText", "Footer description", Constants.DataTypes.Textarea,
-            "A program of the Michael Nathan Twining Foundation — a 501(c)(3) nonprofit honoring SSG Michael " +
+            "A program of the Michael Nathan Twining Foundation, a 501(c)(3) nonprofit honoring SSG Michael " +
             "\"Nate\" Twining, U.S. Army, 101st Airborne Division."),
     };
 

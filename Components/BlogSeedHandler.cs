@@ -332,7 +332,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
                     seed.ImageAlt,
                     StringComparison.OrdinalIgnoreCase));
 
-        // Only fill blanks — an editor's own image or description is left alone. Set
+        // Only fill blanks; an editor's own image or description is left alone. Set
         // C4H_FORCE_IMAGE_REFRESH=1 to re-assert the seeded values after a correction,
         // including clearing an alt text the seed no longer supplies.
         bool forceRefresh = Environment.GetEnvironmentVariable("C4H_FORCE_IMAGE_REFRESH") == "1";

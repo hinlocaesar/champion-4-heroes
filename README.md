@@ -4,12 +4,12 @@ An **Umbraco 18** (.NET 10) website for **Champions 4 Heroes**, a program of the
 Foundation** (EIN 85-2456580) founded by Mel Twining in honor of his son, Army Staff Sergeant Michael "Nate"
 Twining of the 101st Airborne Division.
 
-The site unites the organization's mission — advocating for, resourcing, and educating on traumatic brain
-injury by bringing veterans and boxing champions together — with Nate's story.
+The site unites the organization's mission, advocating for, resourcing, and educating on traumatic brain
+injury, with Nate's story by bringing veterans and boxing champions together.
 
 ## Requirements
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download) — `dotnet --version` should report 10.x
+- [.NET 10 SDK](https://dotnet.microsoft.com/download); `dotnet --version` should report 10.x
 - Nothing else: Umbraco, SQLite, and the back office are all part of the project
 
 ## Run it
@@ -21,7 +21,7 @@ cp appsettings.Development.example.json appsettings.Development.json
 ```
 
 Then edit `appsettings.Development.json` and set `UnattendedUserName`, `UnattendedUserEmail` and
-`UnattendedUserPassword` to your own values. That file is git-ignored — credentials never get committed.
+`UnattendedUserPassword` to your own values. That file is git-ignored, so credentials never get committed.
 
 ```bash
 dotnet run
@@ -31,7 +31,7 @@ This uses the `Umbraco.Web.UI` launch profile, which listens on **both**:
 
 | URL | Use |
 | --- | --- |
-| https://localhost:44369 | Front office **and back office** — the one you normally want |
+| https://localhost:44369 | Front office **and back office**, the one you normally want |
 | http://localhost:50104 | Front office only, over plain HTTP |
 
 > ⚠️ **The back office must be opened over HTTPS.** Umbraco authenticates with OpenID Connect, and
@@ -70,7 +70,7 @@ Umbraco also needs to know its own public URL to build OAuth redirect URIs, so s
 
 ## How the content is managed
 
-Everything on the page comes from the **Home** content item — open the back office, edit, save, and publish:
+Everything on the page comes from the **Home** content item. Open the back office, edit, save, and publish:
 
 | Back office tab | What it controls |
 | --- | --- |
@@ -82,7 +82,7 @@ Everything on the page comes from the **Home** content item — open the back of
 | Get Involved | Section title/lead and the CTA banner heading |
 | Contact & Footer | Contact intro, Facebook URL, mailing address, footer description |
 
-`SiteSeedHandler` only creates the document type and content when they are **missing** — it never overwrites
+`SiteSeedHandler` only creates the document type and content when they are **missing**, so it never overwrites
 edits made in the back office. To change the default wording for future installs, edit the `Fields` table in
 `Components/SiteSeedHandler.cs`.
 
@@ -90,14 +90,14 @@ edits made in the back office. To change the default wording for future installs
 
 `/blog` is a full Umbraco section with its own listing page and one page per post.
 
-- **Listing page** (`blog` document type) at `/blog` — edit the title and lead paragraph there.
+- **Listing page** (`blog` document type) at `/blog`; edit the title and lead paragraph there.
 - **Posts** (`blogPost` document type) live under the listing. Each post has: Title, Posted by, Event,
   Body, Image file, Image alt text, and the original Facebook post URL.
 - **Images** live in `wwwroot/img/blog/` and are referenced by filename in the `imageFile` field.
   Posts without a downloaded image fall back to a branded "4" placeholder.
 
 `BlogSeedHandler` seeds 12 posts taken from the organization's Facebook posts, and only creates the
-ones that are missing — so adding a post in the back office is never undone on restart. It also
+ones that are missing, so adding a post in the back office is never undone on restart. It also
 attaches a seeded image to a post whose **live** page is missing one, but never overwrites an image
 or alt text an editor has set. To change the seeded posts, edit the `Posts` table in
 `Components/BlogSeedHandler.cs`.
@@ -129,7 +129,7 @@ Most of the photos are portrait phone shots, so images are cropped from the top 
 center top`) to keep faces in frame.
 
 Alt text is intentionally left empty for every image. Add a description in the back office
-(**Image alt text**) when you have one written — an empty alt is invisible to screen readers, so this
+(**Image alt text**) when you have one written. An empty alt is invisible to screen readers, so this
 is worth doing before launch. An editor's value is never overwritten once set.
 
 ## Project layout
@@ -140,15 +140,15 @@ Composers/SiteComposer.cs      Registers the seeding handlers
 Components/SiteSeedHandler.cs  Creates the home document type + seeds the first page
 Components/BlogSeedHandler.cs  Creates the blog types + seeds the posts
 Views/Home.cshtml              The home page (all content read from Umbraco)
-Views/BlogListing.cshtml       /blog — the post grid
+Views/BlogListing.cshtml       /blog, the post grid
 Views/BlogPost.cshtml          A single blog post
 wwwroot/img/blog/              Blog post images
 wwwroot/css/styles.css         Design system + responsive layout
 wwwroot/js/main.js             Nav, scroll effects, contact form
 appsettings.json               Shared configuration
-appsettings.Development.json   Local dev settings — git-ignored, holds your admin login
+appsettings.Development.json   Local dev settings, git-ignored, holds your admin login
 appsettings.Local.json         Optional per-machine override, also git-ignored
-umbraco/Data/*.sqlite.db       Local database (git-ignored — never committed)
+umbraco/Data/*.sqlite.db       Local database (git-ignored, never committed)
 ```
 
 ## Resources featured on the site
@@ -156,7 +156,7 @@ umbraco/Data/*.sqlite.db       Local database (git-ignored — never committed)
 | Resource | Link |
 | --- | --- |
 | *The Nathan Twining Story* (Fisher House Foundation) | https://www.youtube.com/watch?v=fmotPKW5c-s |
-| Remembering Nate Twining (Friends of Fisher House – Illinois) | https://www.facebook.com/watch/?v=365086695465717 |
+| Remembering Nate Twining (Friends of Fisher House, Illinois) | https://www.facebook.com/watch/?v=365086695465717 |
 | Mel Twining on Facebook | https://www.facebook.com/nate.twining.733/ |
 
 The 12 blog posts were sourced from the organization's Facebook posts (shared via Eva D. Jones-Young,
@@ -201,7 +201,7 @@ own links rather than a hardcoded list.
 app, starts it so it seeds itself, exports the static site, and publishes `dist/` to Pages.
 
 **One-time setup:** in the repo go to **Settings → Pages → Build and deployment → Source** and choose
-**GitHub Actions**. Ignore the "GitHub Pages Jekyll" and "Static HTML" cards underneath — those are
+**GitHub Actions**. Ignore the "GitHub Pages Jekyll" and "Static HTML" cards underneath, because those are
 starter templates for people deploying *from a branch*, and this repository already ships its own
 workflow.
 
@@ -225,17 +225,17 @@ readable with a token.
 If you would rather not touch repository settings, `dist/` can go to any static host by hand.
 Build it locally, then drop the folder on
 [Netlify Drop](https://app.netlify.com/drop) (or Cloudflare Pages direct upload) and it is live in
-about a minute. Netlify is a fine place for the exported site — it just cannot run the CMS.
+about a minute. Netlify is a fine place for the exported site; it just cannot run the CMS.
 
 ### Netlify or Cloudflare Pages
 
-Either host works from the same `dist/` folder — no build command needed, since the workflow
+Either host works from the same `dist/` folder, with no build command needed, since the workflow
 already produces it. Copy the folder contents into a new site and set the publish directory to
 `dist` (or `dist` with no build command on Netlify).
 
 ### What deploying statically means for editing
 
-The back office at `/umbraco` is a **local tool only** — it is not deployed. Content changes flow
+The back office at `/umbraco` is a **local tool only**; it is not deployed. Content changes flow
 like this:
 
 1. Edit and publish in the local back office (or edit the seed tables in `Components/`)
