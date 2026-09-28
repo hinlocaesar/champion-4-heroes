@@ -97,11 +97,15 @@ edits made in the back office. To change the default wording for future installs
   Posts without a downloaded image fall back to a branded "4" placeholder.
 
 `BlogSeedHandler` seeds 12 posts taken from the organization's Facebook posts, and only creates the
-ones that are missing — so adding a post in the back office is never undone on restart. To change the
-seeded posts, edit the `Posts` table in `Components/BlogSeedHandler.cs`.
+ones that are missing — so adding a post in the back office is never undone on restart. It also
+attaches a seeded image to a post whose **live** page is missing one, but never overwrites an image
+or alt text an editor has set. To change the seeded posts, edit the `Posts` table in
+`Components/BlogSeedHandler.cs`.
 
 Six of the twelve posts have images. Facebook's crawler endpoint returned a login wall for the other
-six, so those posts publish without an image until you upload one in the back office.
+six, so those posts publish without an image until you upload one in the back office. If a post points
+at a file that is not on disk, the card falls back to the branded "4" placeholder instead of a broken
+image.
 
 ## Project layout
 

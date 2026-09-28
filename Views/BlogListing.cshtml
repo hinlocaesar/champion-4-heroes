@@ -92,7 +92,8 @@
                                 <a class="blog-card-media" href="@href" tabindex="-1" aria-hidden="true">
                                     @if (!string.IsNullOrWhiteSpace(image))
                                     {
-                                        <img src="@Url.Content($"~/img/blog/{image}")" alt="@alt" loading="lazy" />
+                                        <img src="@Url.Content($"~/img/blog/{image}")" alt="@alt" loading="lazy"
+                                             onerror="this.closest('.blog-card-media').innerHTML='<span class=&quot;blog-card-placeholder&quot;>4</span>';" />
                                     }
                                     else
                                     {

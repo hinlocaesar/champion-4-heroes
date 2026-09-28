@@ -1,10 +1,12 @@
 using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core;
+using Umbraco.Cms.Core.PublishedCache;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
+using Umbraco.Extensions;
 
 namespace champion_4_heroes.Components;
 
@@ -119,8 +121,9 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
             "Mel Twining from Champions 4 Heroes pictured here with beautiful Brenda Spinks, wife of the late " +
             "great Leon Spinks. Congratulations Brenda on your award from the International Women's Boxing " +
             "Hall of Fame!",
-            null,
-            string.Empty,
+            "brenda-spinks-award.jpg",
+            "Mel Twining, wearing a Champions 4 Heroes t-shirt, photographed with Brenda Spinks at the " +
+            "International Women's Boxing Hall of Fame",
             "https://www.facebook.com/share/p/1HYTr6QsFZ/"),
 
         new(
@@ -189,6 +192,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
     private readonly IContentTypeService _contentTypeService;
     private readonly IContentService _contentService;
     private readonly IEntityService _entityService;
+    private readonly IPublishedContentCache _publishedCache;
     private readonly IDataTypeService _dataTypeService;
     private readonly IShortStringHelper _shortStringHelper;
     private readonly ILogger<BlogSeedHandler> _logger;
@@ -197,6 +201,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
         IContentTypeService contentTypeService,
         IContentService contentService,
         IEntityService entityService,
+        IPublishedContentCache publishedCache,
         IDataTypeService dataTypeService,
         IShortStringHelper shortStringHelper,
         ILogger<BlogSeedHandler> logger)
@@ -204,6 +209,7 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
         _contentTypeService = contentTypeService;
         _contentService = contentService;
         _entityService = entityService;
+        _publishedCache = publishedCache;
         _dataTypeService = dataTypeService;
         _shortStringHelper = shortStringHelper;
         _logger = logger;
@@ -258,17 +264,21 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
 
         var existingPosts = Children(listing.Id)
             .Where(c => c.ContentType.Alias == PostTypeAlias)
-            .Select(c => c.Name)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
+            .ToDictionary(c => c.Name ?? string.Empty, c => c, StringComparer.OrdinalIgnoreCase);
 
         int created = 0;
+        int backfilled = 0;
 
         foreach (Post post in Posts)
         {
             // The post node name is its URL segment, so dedupe on that.
-            if (existingPosts.Contains(post.UrlSegment))
+            if (existingPosts.TryGetValue(post.UrlSegment, out IContent? existing))
             {
+                if (AttachImage(existing, post))
+                {
+                    backfilled++;
+                }
+
                 continue;
             }
 
@@ -287,9 +297,53 @@ public sealed class BlogSeedHandler : INotificationHandler<UmbracoApplicationSta
         }
 
         _logger.LogInformation(
-            "Champions 4 Heroes: blog section ready with {Created} new posts ({Total} total).",
+            "Champions 4 Heroes: blog section ready ({Created} new, {Backfilled} images added, {Total} total).",
             created,
+            backfilled,
             Posts.Length);
+    }
+
+    /// <summary>
+    /// Gives a post its seeded image when the live page is still missing one. Values an editor
+    /// has set are never overwritten. Returns true when something changed.
+    /// </summary>
+    private bool AttachImage(IContent post, Post seed)
+    {
+        if (string.IsNullOrWhiteSpace(seed.Image))
+        {
+            return false;
+        }
+
+        // Compare against what is actually live, not the draft: a previous run may have
+        // saved the value without ever publishing it.
+        var published = _publishedCache.GetById(post.Key);
+
+        bool liveMatches =
+            published is not null
+            && string.Equals(
+                published.Value<string>("imageFile"),
+                seed.Image,
+                StringComparison.OrdinalIgnoreCase);
+
+        if (liveMatches)
+        {
+            return false;
+        }
+
+        // Only fill blanks — an editor's own image is left alone.
+        if (string.IsNullOrWhiteSpace(post.GetValue<string>("imageFile")))
+        {
+            post.SetValue("imageFile", seed.Image);
+        }
+
+        if (string.IsNullOrWhiteSpace(post.GetValue<string>("imageAlt")))
+        {
+            post.SetValue("imageAlt", seed.ImageAlt);
+        }
+
+        _contentService.Save(post);
+        _contentService.Publish(post, Array.Empty<string>());
+        return true;
     }
 
     /// <summary>Loads the children of a node as full <see cref="IContent"/> items.</summary>

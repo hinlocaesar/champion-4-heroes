@@ -85,7 +85,8 @@
                 @if (!string.IsNullOrWhiteSpace(image))
                 {
                     <figure class="post-figure reveal">
-                        <img src="@Url.Content($"~/img/blog/{image}")" alt="@imageAlt" />
+                        <img src="@Url.Content($"~/img/blog/{image}")" alt="@imageAlt"
+                             onerror="this.closest('.post-figure').innerHTML='';" />
                     </figure>
                 }
 
@@ -129,7 +130,8 @@
                                 <a class="blog-card-media" href="@href" tabindex="-1" aria-hidden="true">
                                     @if (!string.IsNullOrWhiteSpace(otherImage))
                                     {
-                                        <img src="@Url.Content($"~/img/blog/{otherImage}")" alt="@otherAlt" loading="lazy" />
+                                        <img src="@Url.Content($"~/img/blog/{otherImage}")" alt="@otherAlt" loading="lazy"
+                                             onerror="this.closest('.blog-card-media').innerHTML='<span class=&quot;blog-card-placeholder&quot;>4</span>';" />
                                     }
                                     else
                                     {
