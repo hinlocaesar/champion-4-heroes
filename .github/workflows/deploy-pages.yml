@@ -59,28 +59,40 @@ jobs:
       - name: Build
         run: dotnet build -c Release --nologo
 
-      - name: Start the app and let it seed itself
+      - name: Start the app, let it seed itself, and export
+        # GitHub tears down background processes at the end of a `run` step, so the
+        # server must be started and used inside this single step.
         run: |
           chmod +x ./bin/Release/net10.0/champion-4-heroes
+
           ASPNETCORE_ENVIRONMENT=Development \
           ASPNETCORE_URLS=http://localhost:5099 \
           C4H_FORCE_IMAGE_REFRESH=1 \
             ./bin/Release/net10.0/champion-4-heroes > app.log 2>&1 &
+          APP_PID=$!
+          echo "app pid $APP_PID"
 
+          READY=0
           for i in $(seq 1 90); do
             if curl -fsS http://localhost:5099/ > /dev/null 2>&1; then
-              echo "app is up after ${i} tries"
-              exit 0
+              echo "app is up after $((i * 2))s"
+              READY=1
+              break
             fi
             sleep 2
           done
 
-          echo "::error::the app did not start"
-          tail -50 app.log
-          exit 1
+          if [ "$READY" -ne 1 ]; then
+            echo "::error::the app did not start"
+            tail -60 app.log
+            exit 1
+          fi
 
-      - name: Export the static site
-        run: node tools/export-static.js http://localhost:5099 /champion-4-heroes
+          node tools/export-static.js http://localhost:5099 /champion-4-heroes
+          STATUS=$?
+
+          kill "$APP_PID" 2>/dev/null || true
+          exit $STATUS
 
       - uses: actions/configure-pages@v5
 
