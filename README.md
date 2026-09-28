@@ -209,11 +209,16 @@ The site is created by the first successful run, so nothing appears on that sett
 To trigger it by hand, open the **Actions** tab, pick **Deploy site to GitHub Pages**, and press
 **Run workflow**.
 
-The site then appears at `https://hinlocaesar.github.io/champion-4-heroes/`.
+The site is live at **`https://hinlocaesar.github.io/champion-4-heroes/`**.
 
 The workflow reads the base path from `configure-pages` rather than hardcoding it, so the export
 adapts automatically. With a custom domain the base path is empty and no change is needed; without
 one it is `/champion-4-heroes`.
+
+A freshly started app can refuse the very first request while it finishes warming up, so both the
+readiness poll and the exporter retry rather than failing the deploy. Anything useful is echoed as a
+check **annotation** (`::error::` lines on the run's summary), because the raw workflow log is only
+readable with a token.
 
 ### Or skip Pages entirely: drag and drop
 
